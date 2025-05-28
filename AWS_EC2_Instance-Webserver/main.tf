@@ -13,6 +13,11 @@ resource "aws_instance" "AWS_Instance_Test" {
       name = "webserver" 
     }
 
+    root_block_device {
+      volume_size = 100
+      volume_type = "gp2"
+    }
+
     depends_on = [ 
         aws_key_pair.web-keys,
         aws_security_group.ssh-login
