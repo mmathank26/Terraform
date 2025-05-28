@@ -38,7 +38,7 @@ resource "aws_key_pair" "web-keys" {
 
 resource "aws_security_group" "ssh-login" {
     name = "ssh-login"
-    description = "security group to allow ssh login for the resource"
+    description = "security group to allow ssh login for the resource. It also have two ports open for containers to use 8080 and 8081."
 
     ingress {
         from_port = 22
@@ -46,6 +46,19 @@ resource "aws_security_group" "ssh-login" {
         protocol = "tcp"
         cidr_blocks = ["0.0.0.0/0"]
     }
-  
+    
+    ingress {
+        from_port = 8080
+        to_port = 8080
+        protocol = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+    }
+
+    ingress {
+        from_port = 8081
+        to_port = 8081
+        protocol = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+    }
 }
 
