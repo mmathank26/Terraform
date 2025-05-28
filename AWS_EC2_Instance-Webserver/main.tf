@@ -14,8 +14,8 @@ resource "aws_instance" "AWS_Instance_Test" {
     }
 
     root_block_device {
-      volume_size = 100
-      volume_type = "gp2"
+      volume_size = var.instance_volume_size
+      volume_type = var.instance_volume_type
     }
 
     depends_on = [ 
