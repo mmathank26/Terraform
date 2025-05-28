@@ -10,7 +10,7 @@ resource "aws_instance" "AWS_Instance_Test" {
     instance_type = var.type_instance
     
     tags = {
-      name = "webserver" 
+      name = "RHEL-Instance" 
     }
 
     root_block_device {
@@ -32,7 +32,7 @@ resource "aws_instance" "AWS_Instance_Test" {
 
 
 resource "aws_key_pair" "web-keys" {
-    public_key = file("/Users/meghalmathankar/Documents/Terraform/AWS_Test_1/me2601.pub")
+    public_key = file("C:\\Users\\mmathank\\Downloads\\id_rsa_pub")
     # Please use ur public access key and update the file location accordingly
 }
 
@@ -49,8 +49,3 @@ resource "aws_security_group" "ssh-login" {
   
 }
 
-output "ip-webserver" {
-
-    value = aws_instance.AWS_Instance_Test.public_ip
-  
-}
