@@ -10,8 +10,7 @@ resource "aws_efs_file_system" "EFS_File_System_ME" {
 
     lifecycle_policy {
         transition_to_ia = var.transition_to_ia
-        transition_to_archive = var.transition_to_archive
-
+        
     }
 
     tags = {
@@ -22,5 +21,45 @@ resource "aws_efs_file_system" "EFS_File_System_ME" {
       prevent_destroy = true
     }
 
+    depends_on = [ 
+        aws_default_subnet.subnet-1 
+
+    ]
+
 }
+
+resource "aws_efs_mount_target" "EFS_Mount_Target_ME" {
+    file_system_id = aws_efs_file_system.EFS_File_System_ME.id
+    subnet_id      = aws_default_subnet.subnet-1.id
+    security_groups = [aws_security_group.efs_sg.id]
+}
+
+resource "aws_default_vpc" "default" {
+  tags = {
+    Name = "Default VPC"
+  }
+}
+
+resource "aws_default_subnet" "subnet-1" {
+    vpc_id     = aws_default_vpc.default.id
+    cidr_block = "10.0.1.0/24"
+    availability_zone = "us-east-1a"
+}
+
+
+resource "aws_security_group" "efs_sg" {
+    name        = "efs_sg"
+    description = "Security group for EFS mount target"
+    vpc_id      = aws_default_vpc.default.id
+
+    ingress {
+        from_port   = 2049
+        to_port     = 2049
+        protocol    = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+    }
+
+}
+
+
 
