@@ -18,5 +18,9 @@ resource "aws_efs_file_system" "EFS_File_System_ME" {
         Name = "EFS_File_System_ME"
     }
 
+    lifecycle {
+      prevent_destroy = true
+    }
+
 }
 
