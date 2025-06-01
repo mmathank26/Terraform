@@ -29,7 +29,7 @@ variable "creation_token" {
 variable "transition_to_ia" {
     description = "Transition to Infrequent Access storage class"
     type        = string
-    default     = "AFTER_1_DAYS"
+    default     = "AFTER_1_DAY"
 }
 
 #available options for transition_to_ia:
