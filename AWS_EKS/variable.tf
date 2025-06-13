@@ -43,7 +43,24 @@ variable "security_group_ids" {
   default     = [] #update with your security group IDs
   
 }
+variable "node_group" {
+  description = "EKS node group configuration"
+  type = map(object({
+    instance_type = string
+    desired_capacity = number
+    max_size = number
+    min_size = number
+  }))
 
+  default = {
+    "example" = {
+      instance_type   = "m3.medium"
+      desired_capacity = 2
+      max_size        = 3
+      min_size        = 1
+    }
+  }
 
+}
 
 
