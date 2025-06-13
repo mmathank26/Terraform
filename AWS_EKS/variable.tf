@@ -47,20 +47,30 @@ variable "node_group" {
   description = "EKS node group configuration"
   type = map(object({
     instance_type = string
-    desired_capacity = number
-    max_size = number
-    min_size = number
+    capacity_type = string
+    scaling_config = object({
+      desired_size = number
+      max_size     = number
+      min_size     = number
+    })
   }))
 
   default = {
     "example" = {
       instance_type   = "m3.medium"
-      desired_capacity = 2
+      desired_size     = 2
       max_size        = 3
       min_size        = 1
     }
   }
 
+}
+
+variable "subnet_ids" {
+  description = "List of subnet IDs where the EKS cluster will be created."
+  type        = list(string)
+  default     = [] #update with your subnet IDs
+  
 }
 
 

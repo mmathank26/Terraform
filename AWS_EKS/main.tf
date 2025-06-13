@@ -102,7 +102,8 @@ resource "aws_eks_node_group" "main" {
         min_size     = each.value.min_size
     }
 
-    instance_types = [var.node_group["example"].instance_type]
+    instance_types = [each.value.instance_type]
+    capacity_type  = [each.value.capacity_type]
 
     depends_on = [aws_iam_role_policy_attachment.node_policy]
 }
