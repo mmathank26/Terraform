@@ -37,7 +37,12 @@ variable "aws_vpc_id" {
   
 }
 
-
+variable "security_group_ids" {
+  description = "List of security group IDs to associate with the EKS cluster."
+  type        = list(string)
+  default     = [] #update with your security group IDs
+  
+}
 
 
 

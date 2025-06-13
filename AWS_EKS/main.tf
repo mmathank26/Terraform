@@ -27,23 +27,23 @@ resource "aws_iam_role" "eks_cluster" {
         }]
     })
 }
-
+ 
  resource "aws_iam_role_policy_attachment" "eks_cluster" {
     role       = aws_iam_role.eks_cluster.name
     policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
  }
 
-resource "aws_subnet" "public" {
-    count = length(var.subnet_ids)
-    vpc_id = var.aws_vpc_id
-    cidr_block = var.subnet_ids[count.index]
-    availability_zone = element(data.aws_availability_zones.available.names, count.index)
+# resource "aws_subnet" "public" {
+#     count = length(var.public_subnet_cidrs)
+#     vpc_id = var.aws_vpc_id
+#     cidr_block = var.subnet_ids[count.index]
+#     availability_zone = element(data.aws_availability_zones.available.names, count.index)
 
-    tags = {
-        Name = "${var.cluster_name}-public-subnet-${count.index + 1}"
-    }
+#     tags = {
+#         Name = "${var.cluster_name}-public-subnet-${count.index + 1}"
+#     }
   
-}
+# }
 
 resource "aws_eks_cluster" "main" {
     name     = var.cluster_name
@@ -75,20 +75,15 @@ resource "aws_iam_role" "node_group" {
   
 }
 
-resource "aws_iam_group_policy_attachment" "node_policy" {
+
+
+resource "aws_iam_role_policy_attachment" "node_policy" {
     for_each = toset([
         "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy",
         "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly",
         "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
     ])
 
-    policy_arm =each.value
-    role aws_iam_role.noede_group.name
+    policy_arn = each.value
+    role       = aws_iam_role.node_group.name
 }
-
-
-
-
-
-
-
