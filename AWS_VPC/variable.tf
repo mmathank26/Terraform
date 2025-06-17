@@ -23,3 +23,11 @@ variable "private_subnet_cidrs" {
   type        = list(string)
   default     = ["136.10.3.0/24", "136.10.4.0/24"]
 }
+
+variable "availability_zones" {
+  description = "List of availability zones to use for the subnets"
+  type        = list(string)
+  default     = ["us-east-1a", "us-east-1b", "us-east-1c"]
+  
+}
+
